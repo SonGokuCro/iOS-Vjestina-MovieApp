@@ -5,7 +5,7 @@ class MovieDataViewController : ViewController, UICollectionViewDelegate {
     let favouriteBgColor = UIColor(red: 71, green: 70, blue: 70, alpha: 1)
     let favourited = UIColor(red: 103/255, green: 177/255, blue: 219/255, alpha: 1)
     
-    
+    let details = MovieUseCase().getDetails(id: 111161)
     var movieCover: UIImageView!
     var ratingLabel: UILabel!
     var userScoreLabel: UILabel!
@@ -17,17 +17,8 @@ class MovieDataViewController : ViewController, UICollectionViewDelegate {
     var favouriteButton: UIButton!
     var overviewLabel: UILabel!
     var summary: UITextView!
-    
-    var upperFirst: UILabel!
-    var upperSecond: UILabel!
-    var upperThird: UILabel!
-    var bottomFirst: UILabel!
-    var bottomSecond: UILabel!
-    var bottomThird: UILabel!
-    
-    var verticalStackView: UIStackView!
-    var horizontalStackView1: UIStackView!
-    var horizontalStackView2: UIStackView!
+    var flowlayout: UICollectionViewFlowLayout!
+    var collectionView: UICollectionView!
             
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,131 +65,48 @@ class MovieDataViewController : ViewController, UICollectionViewDelegate {
         
         summary = UITextView()
         view.addSubview(summary)
-        
-        verticalStackView = UIStackView()
-        view.addSubview(verticalStackView)
 
-        horizontalStackView1 = UIStackView()
-        view.addSubview(horizontalStackView1)
-
-        horizontalStackView2 = UIStackView()
-        view.addSubview(horizontalStackView2)
-        
-        upperFirst = UILabel()
-        view.addSubview(upperFirst)
-
-        upperSecond = UILabel()
-        view.addSubview(upperSecond)
-
-        upperThird = UILabel()
-        view.addSubview(upperThird)
-
-        bottomFirst = UILabel()
-        view.addSubview(bottomFirst)
-
-        bottomSecond = UILabel()
-        view.addSubview(bottomSecond)
-
-        bottomThird = UILabel()
-        view.addSubview(bottomThird)
-
-        
+        flowlayout = UICollectionViewFlowLayout()
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowlayout )
+        view.addSubview(collectionView)
     }
     
     func styleViews() {
-        if let details = MovieUseCase().getDetails(id: 111161) {
-            let url = details.imageUrl
-            movieCover.loadFrom(URLAddress: url)
+        let url = details?.imageUrl ?? nil
+        movieCover.loadFrom(URLAddress: url!)
 
-            ratingLabel.text = String(details.rating)
-            
-            nameLabel.text = String(details.name)
-            yearLabel.text = " (" + String(details.year) + ")"
-            
-            summary.text = String(details.summary)
+        ratingLabel.text = String(details!.rating)
+        
+        nameLabel.text = String(details!.name)
+        yearLabel.text = " (" + String(details!.year) + ")"
+        
+        summary.text = String(details!.summary)
 
-            var string = ""
-            let categories = details.categories
-            
-            for category in categories {
-                if(string == "") {
-                    string = String(describing: category).localizedCapitalized
-                } else {
-                    string = ", " + String(describing: category).localizedCapitalized
-                }
+        var string = ""
+        let categories = details!.categories
+        
+        for category in categories {
+            if(string == "") {
+                string = String(describing: category).localizedCapitalized
+            } else {
+                string = ", " + String(describing: category).localizedCapitalized
             }
-            genreLabel.text = string
-            
-            let minutes = details.duration
-            let duration = String(format: "%2dh %2dm", minutes / 60, minutes % 60)
-            string = string.trimmingCharacters(in: [" ", ","])
-            string.append(" " + duration)
-            durationLabel.text = duration;
-            
-            let stringDate = details.releaseDate
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            if let date = dateFormatter.date(from: stringDate) {
-                dateFormatter.dateFormat = "MM/dd/yyyy"
-                let formattedDate = dateFormatter.string(from: date)
-                dateLabel.text = formattedDate + " (US)"
-            }
-            
-            let members : [MovieCrewMemberModel] = details.crewMembers
-            let size = members.count
-
-            var i = 0
-            while i < size  {
-                let bolded = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.black]
-                let regular = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14),
-                                NSAttributedString.Key.foregroundColor: UIColor.black]
-                let someText = NSMutableAttributedString()
-                let name = NSAttributedString(string: members[i].name + "\n", attributes: bolded)
-                let role = NSAttributedString(string: members[i].role, attributes: regular)
-                someText.append(name)
-                someText.append(role)
-             
-                switch(i) {
-                case 0: do {
-                    upperFirst.attributedText = someText;
-                    upperFirst.numberOfLines = 0
-                    horizontalStackView1.addArrangedSubview(upperFirst)
-                }
-                case 1: do {
-                    upperSecond.attributedText = someText;
-                    upperSecond.numberOfLines = 0
-                    horizontalStackView1.addArrangedSubview(upperSecond)
-                }
-                case 2: do {
-                    upperThird.attributedText = someText;
-                    upperThird.numberOfLines = 0
-                    horizontalStackView1.addArrangedSubview(upperThird)
-                }
-                case 3: do {
-                    bottomFirst.attributedText = someText;
-                    bottomFirst.numberOfLines = 0
-                    horizontalStackView2.addArrangedSubview(bottomFirst)
-                }
-                case 4: do {
-                    bottomSecond.attributedText = someText;
-                    bottomSecond.numberOfLines = 0
-                    horizontalStackView2.addArrangedSubview(bottomSecond)
-                }
-                case 5: do {
-                    bottomThird.attributedText = someText;
-                    bottomThird.numberOfLines = 0
-                    horizontalStackView2.addArrangedSubview(bottomThird)
-                }
-                default: break;
-                }
-                i += 1;
-            }
-            
-            
-            verticalStackView.addArrangedSubview(horizontalStackView1)
-            verticalStackView.addArrangedSubview(horizontalStackView2)
-        } else {
-            print("Invalid details")
+        }
+        genreLabel.text = string
+        
+        let minutes = details!.duration
+        let duration = String(format: "%2dh %2dm", minutes / 60, minutes % 60)
+        string = string.trimmingCharacters(in: [" ", ","])
+        string.append(" " + duration)
+        durationLabel.text = duration;
+        
+        let stringDate = details!.releaseDate
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let date = dateFormatter.date(from: stringDate) {
+            dateFormatter.dateFormat = "MM/dd/yyyy"
+            let formattedDate = dateFormatter.string(from: date)
+            dateLabel.text = formattedDate + " (US)"
         }
         
         movieCover.contentMode = .scaleAspectFill
@@ -216,7 +124,6 @@ class MovieDataViewController : ViewController, UICollectionViewDelegate {
         yearLabel.textColor = .white
         yearLabel.font = UIFont.systemFont(ofSize: 18)
 
-        
         dateLabel.font = UIFont.systemFont(ofSize: 14)
         dateLabel.textColor = .white
 
@@ -242,20 +149,13 @@ class MovieDataViewController : ViewController, UICollectionViewDelegate {
         summary.textColor = .black
         summary.font = UIFont.systemFont(ofSize: 14)
         
-        verticalStackView.axis = .vertical
-        verticalStackView.alignment = .fill
-        verticalStackView.distribution = .fillEqually
-        verticalStackView.spacing = 22
+        flowlayout.scrollDirection = .vertical
+        flowlayout.minimumInteritemSpacing = CGFloat(16)
+        flowlayout.minimumLineSpacing = CGFloat(16)
         
-        horizontalStackView1.axis = .horizontal
-        horizontalStackView1.alignment = .fill
-        horizontalStackView1.distribution = .fillEqually
-        horizontalStackView1.spacing = 16
-        
-        horizontalStackView2.axis = .horizontal
-        horizontalStackView2.alignment = .fill
-        horizontalStackView2.distribution = .fillEqually
-        horizontalStackView2.spacing = 16
+        collectionView.register(MembersCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
     
     func defineLayout() {
@@ -296,9 +196,11 @@ class MovieDataViewController : ViewController, UICollectionViewDelegate {
         summary.autoPinEdge(toSuperviewSafeArea: .trailing,withInset: 10)
         summary.autoPinEdge(toSuperviewEdge: .bottom,withInset: 400)
         
-        verticalStackView.autoPinEdge(.top, to: .bottom, of: summary, withOffset: 20)
-        verticalStackView.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 15)
-        verticalStackView.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 15)
+        collectionView.autoPinEdge(toSuperviewEdge: .top, withInset: 480)
+        collectionView.autoPinEdge(toSuperviewEdge: .leading)
+        collectionView.autoPinEdge(toSuperviewEdge: .trailing)
+        collectionView.autoSetDimension(.height, toSize: 105)
+    
     }
 
     @objc
@@ -324,4 +226,27 @@ extension UIImageView {
         }
     }
 }
+
+extension MovieDataViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return details?.crewMembers.count ?? 0
+    }
+    
+    internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MembersCell
+        let data = details?.crewMembers[indexPath.item]
+        cell.titleLabel.text = data?.name
+        cell.subtitleLabel.text = data?.role
+        return cell
+    }
+}
+
+extension MovieDataViewController: UICollectionViewDelegateFlowLayout {
+    internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let spacing: CGFloat = 15
+        let width = (collectionView.bounds.width - 4 * spacing) / 3
+        return CGSize(width: width, height: 40)
+    }
+}
+
 
