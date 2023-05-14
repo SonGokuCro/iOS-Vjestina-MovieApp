@@ -22,6 +22,7 @@
 		6EE3926B2A0E874700036AF5 /* MovieCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3926A2A0E874700036AF5 /* MovieCategoryViewController.swift */; };
 		6EE3926F2A0E885400036AF5 /* MovieCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3926E2A0E885400036AF5 /* MovieCategoryCell.swift */; };
 		6EE392712A0E890F00036AF5 /* MovieImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE392702A0E890F00036AF5 /* MovieImageCell.swift */; };
+		6EE392752A117E8600036AF5 /* MembersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE392742A117E8600036AF5 /* MembersCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		6EE3926A2A0E874700036AF5 /* MovieCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCategoryViewController.swift; sourceTree = "<group>"; };
 		6EE3926E2A0E885400036AF5 /* MovieCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCategoryCell.swift; sourceTree = "<group>"; };
 		6EE392702A0E890F00036AF5 /* MovieImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieImageCell.swift; sourceTree = "<group>"; };
+		6EE392742A117E8600036AF5 /* MembersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				6EE392632A0D3CA200036AF5 /* MovieListCell.swift */,
 				6EE3926E2A0E885400036AF5 /* MovieCategoryCell.swift */,
 				6EE392702A0E890F00036AF5 /* MovieImageCell.swift */,
+				6EE392742A117E8600036AF5 /* MembersCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 				6E6FC1B029DA39E6008A6FAA /* ViewController.swift in Sources */,
 				6EE392622A0D368900036AF5 /* MovieListViewController.swift in Sources */,
 				6E6FC1B729DA5C05008A6FAA /* LoginViewController.swift in Sources */,
+				6EE392752A117E8600036AF5 /* MembersCell.swift in Sources */,
 				6EE3926F2A0E885400036AF5 /* MovieCategoryCell.swift in Sources */,
 				6EE392712A0E890F00036AF5 /* MovieImageCell.swift in Sources */,
 				6E6FC1B129DA39E6008A6FAA /* SceneDelegate.swift in Sources */,

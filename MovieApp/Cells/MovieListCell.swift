@@ -44,47 +44,48 @@ class MovieListCell : UICollectionViewCell {
     }
     
     func styleViews() {
-        backgroundColor = .white
-        
-        contentView.layer.masksToBounds = false
-        contentView.layer.cornerRadius = 20
-        
-        contentView.backgroundColor = .white
-        contentView.layer.shadowRadius = 10
-        contentView.layer.shadowColor = UIColor.darkGray.cgColor
-        contentView.layer.shadowOpacity = 0.3
-        contentView.layer.shadowOffset = CGSize(width: 4, height: 8)
-        contentView.layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-        
+        backgroundColor = .systemBackground
+        layer.masksToBounds = false
+        layer.cornerRadius = 20
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.1
+        layer.shadowOffset = CGSize(width: 4, height: 8)
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+                
         coverImage.contentMode = .scaleAspectFit
         coverImage.layer.cornerRadius = 20
         coverImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         coverImage.clipsToBounds = true
-        
+            
         nameLabel.textColor = .black
         nameLabel.font = .boldSystemFont(ofSize: 14)
         nameLabel.numberOfLines = 0
         nameLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-        
-        summaryLabel.textColor = UIColor.systemGray
-        summaryLabel.font = .systemFont(ofSize: 14)
-        summaryLabel.numberOfLines = 5
+            
+        summaryLabel.textColor = UIColor(red: 0.51, green: 0.51, blue: 0.51, alpha: 1)
+        summaryLabel.font = .systemFont(ofSize: 12)
+        summaryLabel.numberOfLines = 0
         summaryLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
     
     func defineLayout() {
-        coverImage.autoPinEdge(toSuperviewEdge: .top)
-        coverImage.autoPinEdge(toSuperviewEdge: .bottom)
+        coverImage.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .trailing)
+        coverImage.autoSetDimensions(to: CGSize(width: 97, height: 142))
         coverImage.autoPinEdge(toSuperviewEdge: .leading)
-        coverImage.autoSetDimension(.width, toSize: 90)
+        coverImage.autoPinEdge(toSuperviewEdge: .top)
         
-        nameLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 12)
+        
+        nameLabel.autoSetDimension(.width, toSize: 250)
+        nameLabel.autoSetDimension(.height, toSize: 40)
         nameLabel.autoPinEdge(.leading, to: .trailing, of: coverImage, withOffset: 16)
+        nameLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 4)
+        nameLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 12, relation: .greaterThanOrEqual)
         
-        summaryLabel.autoPinEdge(.top, to: .bottom, of: nameLabel, withOffset: 8)
-        summaryLabel.autoPinEdge(.leading, to: .trailing, of: coverImage, withOffset: 16)
-        summaryLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 12)
-        
+          summaryLabel.autoSetDimension(.width, toSize: 233)
+          summaryLabel.autoPinEdge(.top, to: .bottom, of: nameLabel, withOffset: 8)
+          summaryLabel.autoPinEdge(.leading, to: .trailing, of: coverImage, withOffset: 16)
+          summaryLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 12)
+          summaryLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: 12, relation: .greaterThanOrEqual)
     }
     
     func loadImage(imageURL: String, imageView: UIImageView) async {

@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  MovieApp
-//
-//  Created by endava-bootcamp on 30.03.2023..
-//
-
 import UIKit
 import MovieAppData
 

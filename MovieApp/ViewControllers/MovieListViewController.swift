@@ -21,12 +21,11 @@ class MovieListViewController : UIViewController {
     }
     
     func createViews() {
-        let useCase = MovieUseCase()
-        movieList = useCase.allMovies
+        movieList = MovieUseCase().allMovies
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
         flowLayout.minimumInteritemSpacing = 8
-        flowLayout.itemSize = CGSize(width: view.bounds.width - 30, height: 140)
+        flowLayout.itemSize = CGSize(width: view.bounds.width - 40, height: 140)
         
         movieCollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         movieCollectionView.dataSource = self
