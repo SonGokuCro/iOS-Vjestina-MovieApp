@@ -19,6 +19,19 @@ class MovieDataViewController : ViewController, UICollectionViewDelegate {
     var summary: UITextView!
     var flowlayout: UICollectionViewFlowLayout!
     var collectionView: UICollectionView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+               
+           summary.transform = summary.transform.translatedBy(x: -view.frame.width, y: 0)
+           collectionView.alpha = 0
+       }
+           
+       override func viewDidAppear(_ animated: Bool) {
+           super.viewDidAppear(animated)
+           UIView.animate( withDuration: 0.2, animations: { self.summary.transform = .identity })
+           UIView.animate( withDuration: 0.3, delay: 0.2, animations: { self.collectionView.alpha = 1})
+       }
             
     override func viewDidLoad() {
         super.viewDidLoad()
