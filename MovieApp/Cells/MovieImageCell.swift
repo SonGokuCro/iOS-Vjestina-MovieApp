@@ -94,3 +94,5 @@ class MovieImageCell : UICollectionViewCell {
         }
     }
 }
+
+

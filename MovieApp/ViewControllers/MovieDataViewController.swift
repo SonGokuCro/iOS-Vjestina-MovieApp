@@ -5,7 +5,7 @@ class MovieDataViewController : ViewController, UICollectionViewDelegate {
     let favouriteBgColor = UIColor(red: 71, green: 70, blue: 70, alpha: 1)
     let favourited = UIColor(red: 103/255, green: 177/255, blue: 219/255, alpha: 1)
     
-    let details = MovieUseCase().getDetails(id: 111161)
+    var details: MovieDetailsModel!
     var movieCover: UIImageView!
     var ratingLabel: UILabel!
     var userScoreLabel: UILabel!
@@ -19,6 +19,14 @@ class MovieDataViewController : ViewController, UICollectionViewDelegate {
     var summary: UITextView!
     var flowlayout: UICollectionViewFlowLayout!
     var collectionView: UICollectionView!
+    
+    private var router: RouterProtocol!
+    private var movieId: Int!
+    convenience init(router: RouterProtocol, movieId: Int) {
+        self.init()
+        self.router = router
+        self.movieId = movieId
+    }
     
     override func viewWillAppear(_ animated: Bool) {
            super.viewWillAppear(animated)
@@ -34,8 +42,7 @@ class MovieDataViewController : ViewController, UICollectionViewDelegate {
        }
             
     override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
+        details = MovieUseCase().getDetails(id: movieId)!
         buildViews()
     }
     
@@ -85,8 +92,9 @@ class MovieDataViewController : ViewController, UICollectionViewDelegate {
     }
     
     func styleViews() {
-        let url = details?.imageUrl ?? nil
-        movieCover.loadFrom(URLAddress: url!)
+        view.backgroundColor = .white
+
+        movieCover.loadFrom(URLAddress: details.imageUrl)
 
         ratingLabel.text = String(details!.rating)
         

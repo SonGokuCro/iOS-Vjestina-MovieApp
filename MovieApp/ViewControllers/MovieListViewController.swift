@@ -9,6 +9,12 @@ class MovieListViewController : UIViewController {
     var movieList: [MovieModel]!
     let cellId = "cellId"
     
+    private var router: RouterProtocol!
+    convenience init(router: RouterProtocol) {
+        self.init(router: RouterProtocol.self as! RouterProtocol)
+        self.router = router
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -62,5 +68,10 @@ extension MovieListViewController: UICollectionViewDataSource, UICollectionViewD
         cell.setData(name: movie.name, summary: movie.summary, imageURL: movie.imageUrl)
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movie = movieList[indexPath.row]
+        router.showMovieDataViewController(movieId: movie.id)
     }
 }

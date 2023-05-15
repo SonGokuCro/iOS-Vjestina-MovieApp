@@ -11,7 +11,8 @@ class MovieCategoryCell : UIView {
     var movieList : [MovieModel]!
     var categoryName = ""
     let cellId = "cell"
-    
+    var tapOnMovieCell: ((Int) -> Void)?
+
     init(category: String, listOfMovies: [MovieModel]) {
         super.init(frame: .zero)
         categoryName = category

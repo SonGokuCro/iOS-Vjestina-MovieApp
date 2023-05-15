@@ -16,6 +16,12 @@ class MovieCategoryViewController : UIViewController {
     var trendingMovieCollectionView : MovieCategoryCell!
     var trendingList = MovieUseCase().trendingMovies
 
+    private var router: RouterProtocol!
+    convenience init(router: RouterProtocol) {
+        self.init()
+        self.router = router
+    }
+    
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -78,3 +84,4 @@ class MovieCategoryViewController : UIViewController {
     }
     
 }
+
